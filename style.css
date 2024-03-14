@@ -115,7 +115,7 @@ table th:first-child {
 }
 
 #randomize {
-  position: absolute;
+  position: fixed;
   right: 0px;
   bottom: 0px;
   margin: 15px;
