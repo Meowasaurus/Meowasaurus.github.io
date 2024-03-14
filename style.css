@@ -1,3 +1,12 @@
+:root {
+  --feature-background-color: rgb(26, 26, 26);
+  --feature-color: white;
+  --sub-feature-background-color: rgb(44, 44, 44);
+  --sub-feature-color: white;
+  --data-background-color: #414141;
+  --data-color: rgb(255, 255, 255);
+}
+
 body {
   background: rgb(19, 32, 25);
   padding: 0px;
@@ -42,23 +51,22 @@ table th:first-child {
 }
 
 .TableHeader {
-  background-color: rgb(17, 102, 17);
   height: 2.0em;
+  background-color: var(--feature-background-color);
+  color: var(--feature-color);
 }
 
 .TableSubHeader {
-  background-color: rgb(92, 161, 92);
+  height: 1.5em;
+  background-color: var(--sub-feature-background-color);
+  color: var(--sub-feature-color);
 }
 
 .TableData {
-  background-color: #e0eee1;
-  color: black;
+  height: 1.0em;
+  background-color: var(--data-background-color);
+  color: var(--data-color);
   text-align: center;
-}
-
-.TableData2 {
-  background-color: rgb(184, 211, 184);
-  color: black;
 }
 
 .RowTable {
@@ -74,24 +82,14 @@ table th:first-child {
   margin-bottom: 0px;
   padding-top: 0;
   padding-bottom: 0;
-  /*border-bottom: solid rgb(113, 133, 115) 5px;*/
+  border-bottom: solid rgb(26, 53, 28) 0.3em;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-.Row:nth-child(odd) {
-  background-color: rgb(59, 59, 59);
-}
-
-.Row:nth-child(even) {
-  background-color: grey;
-}
-
-
 .LeftToRight {
   display: flex;
-  background-color: rgb(91, 114, 95);
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -99,7 +97,6 @@ table th:first-child {
 
 .TopToBottom {
   display: flex;
-  background-color: rgb(91, 114, 95);
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -124,7 +121,8 @@ table th:first-child {
   height: 100px;
   border-radius: 50px;
   outline: 1px solid #e0eee1;
-  background-color: rgb(17, 102, 17);
+  background-color: var(--feature-background-color);
+  color: var(--feature-color);
 
   display: flex;
   justify-content: center;
@@ -135,7 +133,10 @@ table th:first-child {
 
 #randomize:hover {
   cursor: pointer;
-  background-color: rgb(11, 70, 11);
-  outline: 1px solid #a3ada4;
-  color: #a4b6aa;
+  filter: brightness(130%);
+}
+
+#randomize:active {
+  cursor: pointer;
+  filter: brightness(80%);
 }
