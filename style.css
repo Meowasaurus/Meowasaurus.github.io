@@ -68,6 +68,7 @@ table th:first-child {
 
 .Row {
   display: flex;
+  overflow-x: hidden;
 
   margin-top: 0px;
   margin-bottom: 0px;
