@@ -1,0 +1,140 @@
+body {
+  background: rgb(19, 32, 25);
+  padding: 0px;
+  margin: 0px;
+}
+
+table {
+  border: none;
+  border-collapse: collapse;
+}
+
+table td {
+  border-left: 1px solid #000;
+}
+
+table td:first-child {
+  border-left: none;
+}
+
+table th {
+  border-left: 1px solid #000;
+}
+
+table th:first-child {
+  border-left: none;
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+  color: white;
+  font-weight: bold;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  /*Don't let select text*/
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}
+
+.TableHeader {
+  background-color: rgb(17, 102, 17);
+  height: 2.0em;
+}
+
+.TableSubHeader {
+  background-color: rgb(92, 161, 92);
+}
+
+.TableData {
+  background-color: #e0eee1;
+  color: black;
+  text-align: center;
+}
+
+.TableData2 {
+  background-color: rgb(184, 211, 184);
+  color: black;
+}
+
+.RowTable {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.Row {
+  display: flex;
+
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
+  /*border-bottom: solid rgb(113, 133, 115) 5px;*/
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.Row:nth-child(odd) {
+  background-color: rgb(59, 59, 59);
+}
+
+.Row:nth-child(even) {
+  background-color: grey;
+}
+
+
+.LeftToRight {
+  display: flex;
+  background-color: rgb(91, 114, 95);
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.TopToBottom {
+  display: flex;
+  background-color: rgb(91, 114, 95);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.RowItem {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.ColumnItem {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#randomize {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  margin: 15px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  outline: 1px solid #e0eee1;
+  background-color: rgb(17, 102, 17);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  line-height: 0;
+}
+
+#randomize:hover {
+  cursor: pointer;
+  background-color: rgb(11, 70, 11);
+  outline: 1px solid #a3ada4;
+  color: #a4b6aa;
+}

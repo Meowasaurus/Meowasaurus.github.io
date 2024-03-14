@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Website</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
+</head>
+
+<body style="display: block" onload="randomize()">
+  <main id="main" style="visibility: hidden;">
+
+    <div class="Row">
+      <table class="RowTable">
+        <tr>
+          <th colspan="6" class="TableHeader">Meta</th>
+        </tr>
+        <tr>
+          <th class="TableSubHeader">Difficulty</th>
+          <th class="TableSubHeader">Element</th>
+          <th class="TableSubHeader">Tarot</th>
+          <th class="TableSubHeader">Virtue</th>
+          <th class="TableSubHeader">Vice</th>
+          <th class="TableSubHeader">Direction</th>
+        </tr>
+        <tr>
+          <td id="difficulty" class="TableData"></td>
+          <td id="element" class="TableData"></td>
+          <td id="tarot" class="TableData"></td>
+          <td id="virtue" class="TableData"></td>
+          <td id="vice" class="TableData"></td>
+          <td id="direction" class="TableData"></td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+    </div>
+
+    <div class="Row">
+      <table class="RowTable">
+        <col width="33.333%" />
+        <col width="33.333%" />
+        <col width="33.333%" />
+        <tr>
+          <th colspan="3" class="TableHeader">Symbols</th>
+        </tr>
+        <tr>
+          <td id="symbol1" class="TableData"></td>
+          <td id="symbol2" class="TableData"></td>
+          <td id="symbol3" class="TableData"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="Row">
+      <table class="RowTable">
+        <col width="33%" />
+        <col width="33%" />
+        <col width="33%" />
+        <tr class="TableHeader">
+          <th colspan="3">Likely Odds</th>
+        </tr>
+        <tr>
+          <th class="TableSubHeader">Low (25%)</th>
+          <th class="TableSubHeader">Even (50%)</th>
+          <th class="TableSubHeader">High (75%)</th>
+        </tr>
+        <tr>
+          <td id="likely_odds_low" class="TableData"></td>
+          <td id="likely_odds_even" class="TableData"></td>
+          <td id="likely_odds_high" class="TableData"></td>
+        </tr>
+        <tr>
+        </tr>
+      </table>
+    </div>
+
+    <div class="Row">
+      <table class="RowTable">
+        <col width="33%" />
+        <col width="33%" />
+        <col width="33%" />
+        <tr style="background-color: aquamarine;">
+          <th colspan="3" class="TableHeader">
+            Prompt
+          </th>
+        </tr>
+        <tr>
+          <td id="verb" class="TableData">
+          </td>
+          <td id="adjective" class="TableData">
+          </td>
+          <td id="noun" class="TableData">
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="Row">
+      <table class="RowTable">
+        <col width="33%" />
+        <col width="33%" />
+        <col width="33%" />
+        <tr style="background-color: aquamarine;">
+          <th colspan="3" class="TableHeader">
+            Event
+          </th>
+        </tr>
+        <tr>
+          <th class="TableSubHeader">Focus</th>
+          <th class="TableSubHeader">Action</th>
+          <th class="TableSubHeader">Subject</th>
+        </tr>
+        <tr>
+          <td id="focus" class="TableData"></td>
+          <td id="action" class="TableData"></td>
+          <td id="subject" class="TableData"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="Row">
+      <table class="RowTable">
+        <col width="14.28571428571429%" />
+        <col width="14.28571428571429%" />
+        <col width="14.28571428571429%" />
+        <col width="14.28571428571429%" />
+        <col width="14.28571428571429%" />
+        <col width="14.28571428571429%" />
+        <col width="14.28571428571429%" />
+        <tr style="background-color: aquamarine;">
+          <th colspan="7" class="TableHeader">Dice rolls</th>
+        </tr>
+        <tr>
+          <th class="TableSubHeader">D4</th>
+          <th class="TableSubHeader">D6</th>
+          <th class="TableSubHeader">D8</th>
+          <th class="TableSubHeader">D10</th>
+          <th class="TableSubHeader">D12</th>
+          <th class="TableSubHeader">D20</th>
+          <th class="TableSubHeader">D100</th>
+        </tr>
+        <tr>
+          <td id="d4" class="TableData"></td>
+          <td id="d6" class="TableData"></td>
+          <td id="d8" class="TableData"></td>
+          <td id="d10" class="TableData"></td>
+          <td id="d12" class="TableData"></td>
+          <td id="d20" class="TableData"></td>
+          <td id="d100" class="TableData"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="Row">
+      <table class="RowTable">
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <tr>
+          <th colspan="4" class="TableHeader">Senses</th>
+        </tr>
+        <tr>
+          <th class="TableSubHeader">See</th>
+          <th class="TableSubHeader">Hear</th>
+          <th class="TableSubHeader">Smell</th>
+          <th class="TableSubHeader">Feel</th>
+        </tr>
+        <tr>
+          <td id="sense_see" class="TableData"></td>
+          <td id="sense_hear" class="TableData"></td>
+          <td id="sense_smell" class="TableData"></td>
+          <td id="sense_feel" class="TableData"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="Row">
+      <table class="RowTable">
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <tr>
+          <th colspan="4" class="TableHeader">Quest</th>
+        </tr>
+        <tr>
+          <th class="TableSubHeader">Framing event</th>
+          <th class="TableSubHeader">Objective</th>
+          <th class="TableSubHeader">Location</th>
+          <th class="TableSubHeader">Complication</th>
+        </tr>
+        <tr>
+          <td id="framing_event" class="TableData"></td>
+          <td id="objective" class="TableData"></td>
+          <td id="location" class="TableData"></td>
+          <td id="complication" class="TableData"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="Row">
+      <table class="RowTable">
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <tr>
+          <th colspan="4" class="TableHeader">Belongings</th>
+        </tr>
+        <tr>
+          <td id="belongings1" class="TableData"></td>
+          <td id="belongings2" class="TableData"></td>
+          <td id="belongings3" class="TableData"></td>
+          <td id="belongings4" class="TableData"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="Row">
+      <table class="RowTable">
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <col width="25%" />
+        <tr>
+          <th colspan="4" class="TableHeader">Names</th>
+        </tr>
+        <tr>
+          <td id="name1" class="TableData"></td>
+          <td id="name2" class="TableData"></td>
+          <td id="name3" class="TableData"></td>
+          <td id="name4" class="TableData"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div id="randomize" onclick="randomize()">Reroll</div>
+
+
+  </main>
+  <script src="adjectives.js"></script>
+  <script src="feelings.js"></script>
+  <script src="names.js"></script>
+  <script src="framing_events.js"></script>
+  <script src="objectives.js"></script>
+  <script src="index.js"></script>
+  <script src="nouns.js"></script>
+  <script src="focus.js"></script>
+  <script src="smells.js"></script>
+  <script src="sounds.js"></script>
+  <script src="locations.js"></script>
+  <script src="verbs.js"></script>
+  <script src="visuals.js"></script>
+  <script src="catalysts.js"></script>
+  <script src="virtues.js"></script>
+  <script src="belongings.js"></script>
+  <script src="vices.js"></script>
+  <script src="complications.js"></script>
+</body>
+
+</html>
