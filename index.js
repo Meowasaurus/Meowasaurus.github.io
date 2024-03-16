@@ -1,5 +1,7 @@
 "use strict";
 
+var gRandomizers = [];
+
 function getRandomElement(elements)
 {
   return elements[getRandomInt(0, elements.length - 1)];
@@ -41,9 +43,9 @@ function getRandomGaussian(min, max)
   return num
 }
 
-function setDifficulty()
+function getRandomDifficulty()
 {
-  document.getElementById("difficulty").innerHTML = [
+  return getRandomGaussianElement([
     "Easy peasy!",
     "Very easy",
     "Easy",
@@ -55,12 +57,12 @@ function setDifficulty()
     "Harder",
     "Very hard",
     "DEADLY!",
-  ][Math.round(getRandomGaussian(1, 10))];
+  ]);
 }
 
-function setElement()
+function getRandomMagicElement()
 {
-  document.getElementById("element").innerHTML = getRandomElement([
+  return getRandomElement([
     "Air",
     "Earth",
     "Fire",
@@ -68,9 +70,9 @@ function setElement()
   ]);
 }
 
-function setTarot()
+function getRandomTarot()
 {
-  document.getElementById("tarot").innerHTML = getRandomElement([
+  return getRandomElement([
     "Fool",
     "Magician",
     "High Priestess",
@@ -96,9 +98,9 @@ function setTarot()
   ]);
 }
 
-function setDirection()
+function getRandomDirection()
 {
-  document.getElementById("direction").innerHTML = getRandomElement([
+  return getRandomElement([
     "North",
     "Northeast",
     "East",
@@ -107,140 +109,85 @@ function setDirection()
     "Southwest",
     "West",
     "Northwest",
-    "Steady",
+    "None",
   ]);
 }
 
-function setMeta()
+function getRandomSymbol()
 {
-  setDifficulty();
-  setElement();
-  setTarot();
-  setDirection();
-}
-
-function setSymbols()
-{
-  const kSymbols = ["Death", "Sword", "Shield", "Wand", "Tower", "Sun", "Moon", "Target", "Crown", "Heart"];
-
-  var selected = [];
-  while (selected.length < 3)
-  {
-    const symbol = getRandomElement(kSymbols);
-    if (selected.includes(symbol))
-    {
-      continue;
-    }
-    selected.push(symbol);
-  }
-
-  for (const i of [0, 1, 2])
-  {
-    document.getElementById("symbol" + String(1 + i)).innerHTML = selected[i];
-  }
+  return getRandomElement(["Death", "Sword", "Shield", "Wand", "Tower", "Sun", "Moon", "Target", "Crown", "Heart"]);
 }
 
 /// Set the likely odds for the given id, with the given odds amount
-function setLikelyOdd(id, bias)
+function getRandomLikelyOdd(bias)
 {
-  var selection = Math.random();
+  let selection = Math.random();
   /// Nat 1
-  var text = null
   if (selection <= 0.05)
   {
-    text = "NO!"
+    return "NO!"
   }
-  else if (selection <= 0.5 + bias)
+  // Nat20
+  if (selection >= 0.95)
   {
-    text = "No"
+    return "YES!"
   }
-  else if (selection <= 0.95)
+
+  if (selection <= 0.5 - bias)
   {
-    text = "Yes"
+    return "No"
   }
-  else // Nat20
+  else
   {
-    text = "YES!"
-  }
-  document.getElementById(id).innerHTML = text;
-}
-function setLikelyOdds()
-{
-  setLikelyOdd("likely_odds_low", -0.25);
-  setLikelyOdd("likely_odds_even", 0.0);
-  setLikelyOdd("likely_odds_high", +0.25);
-}
-
-function setPrompt()
-{
-  document.getElementById("verb").innerHTML = getRandomVerb();
-  document.getElementById("adjective").innerHTML = getRandomAdjective();
-  document.getElementById("noun").innerHTML = getRandomNoun();
-}
-
-function setEvent()
-{
-  document.getElementById("focus").innerHTML = getRandomFocus();
-  document.getElementById("action").innerHTML = getRandomVerb();
-  document.getElementById("subject").innerHTML = getRandomNoun();
-}
-
-function setDie(id, d)
-{
-  document.getElementById(id).innerHTML = String(getRandomInt(1, d));
-}
-function setDice(id, d)
-{
-  for (var d of [4, 6, 8, 10, 12, 20, 100])
-  {
-    setDie("d" + String(d), d);
+    return "Yes"
   }
 }
-
-function setSenses()
+function getRandomLowLikelyOdd()
 {
-  document.getElementById("sense_hear").innerHTML = getRandomSound();
-  document.getElementById("sense_see").innerHTML = getRandomVisual();
-  document.getElementById("sense_smell").innerHTML = getRandomSmell();
-  document.getElementById("sense_feel").innerHTML = getRandomFeeling();
+  return getRandomLikelyOdd(-0.25);
+}
+function getRandomEvenLikelyOdd()
+{
+  return getRandomLikelyOdd(0.0);
+}
+function getRandomHighLikelyOdd()
+{
+  return getRandomLikelyOdd(+0.25);
 }
 
-function setQuest()
+
+function getRandomD4()
 {
-  document.getElementById("framing_event").innerHTML = getRandomFramingEvent();
-  document.getElementById("objective").innerHTML = getRandomObjective();
-  document.getElementById("location").innerHTML = getRandomLocation();
-  document.getElementById("complication").innerHTML = getRandomComplication();
+  return getRandomInt(1, 4)
+}
+function getRandomD6()
+{
+  return getRandomInt(1, 6)
+}
+function getRandomD8()
+{
+  return getRandomInt(1, 8)
+}
+function getRandomD10()
+{
+  return getRandomInt(1, 10)
+}
+function getRandomD12()
+{
+  return getRandomInt(1, 12)
+}
+function getRandomD20()
+{
+  return getRandomInt(1, 20)
+}
+function getRandomD100()
+{
+  return getRandomInt(1, 100)
 }
 
-function setBelongings()
+function getRandomDungeonTheme()
 {
-  for (var i of [1, 2, 3, 4])
-  {
-    document.getElementById("belongings" + String(i)).innerHTML = getRandomBelonging();
-  }
-}
-
-function setNames()
-{
-  for (var i of [1, 2, 3, 4])
-  {
-    document.getElementById("name" + String(i)).innerHTML = getRandomName();
-  }
-}
-
-function setTrap()
-{
-  // Complexity?
-  document.getElementById("trap_object").innerHTML = getRandomTrapObject();
-  document.getElementById("trap_trigger").innerHTML = getRandomTrapTrigger();
-  document.getElementById("trap_effect").innerHTML = getRandomTrapEffect();
-  document.getElementById("trap_severity").innerHTML = getRandomTrapSeverity();
-}
-
-function setDungeon()
-{
-  document.getElementById("dungeon_theme").innerHTML = getRandomElement([
+  return getRandomElement([
     "Abandoned",
     "Abyssal",
     "Ancient",
@@ -276,7 +223,11 @@ function setDungeon()
     "Twisted",
     "Uncanny",
   ]);
-  document.getElementById("dungeon_feature").innerHTML = getRandomElement([
+}
+
+function getRandomDungeonFeature()
+{
+  return getRandomElement([
     "Arena",
     "Barracks/Guardroom",
     "BOSS",
@@ -307,7 +258,11 @@ function setDungeon()
     "Trap",
     "Vault",
   ]);
-  document.getElementById("dungeon_characteristic").innerHTML = getRandomElement([
+}
+
+function getRandomDungeonCharacteristic()
+{
+  return getRandomElement([
     "Dark",
     "Smelly",
     "Corpses",
@@ -333,7 +288,11 @@ function setDungeon()
     "Aqueduct",
     "Uneven floor",
   ]);
-  document.getElementById("dungeon_contents").innerHTML = getRandomElement([
+}
+
+function getRandomDungeonContents()
+{
+  return getRandomElement([
     "Empty",
     "Theme monster",
     "Pest monster",
@@ -345,9 +304,9 @@ function setDungeon()
   ]);
 }
 
-function setWilderness()
+function getRandomWildernessLocation()
 {
-  document.getElementById("wilderness_location").innerHTML = getRandomElement([
+  return getRandomElement([
     "Archipelago",
     "Avalanche",
     "Barrier island",
@@ -464,7 +423,10 @@ function setWilderness()
     "Wetland",
     "Wildflower",
   ]);
-  document.getElementById("wilderness_time").innerHTML = getRandomElement([
+}
+function getRandomWildernessTime()
+{
+  return getRandomElement([
     "Dawn",
     "Morning",
     "Noon",
@@ -474,7 +436,11 @@ function setWilderness()
     "Night",
     "Midnight",
   ]);
-  document.getElementById("wilderness_temp").innerHTML = getRandomGaussianElement([
+}
+
+function getRandomWildernessTemperature()
+{
+  return getRandomGaussianElement([
     "Freezing",
     "Cold",
     "Below average",
@@ -483,7 +449,11 @@ function setWilderness()
     "Hot",
     "Sweltering",
   ]);
-  document.getElementById("wilderness_wind").innerHTML = getRandomGaussianElement([
+}
+
+function getRandomWildernessWind()
+{
+  return getRandomGaussianElement([
     "Gale",
     "Gusty",
     "Breezy",
@@ -492,7 +462,10 @@ function setWilderness()
     "Gusty",
     "Gale",
   ]);
-  document.getElementById("wilderness_weather").innerHTML = getRandomGaussianElement([
+}
+function getRandomWildernessWeather()
+{
+  return getRandomGaussianElement([
     "Dust storm",
     "Tornado",
     "Hurricane",
@@ -510,10 +483,13 @@ function setWilderness()
   ]);
 }
 
-function setUrban()
+function getRandomUrbanName()
 {
-  document.getElementById("urban_tavern_name").innerHTML = "The " + getRandomAdjective() + " " + getRandomNoun();
-  document.getElementById("urban_tavern_feature").innerHTML = getRandomElement([
+  return "The " + getRandomAdjective() + " " + getRandomNoun();
+}
+function getRandomUrbanFeature()
+{
+  return getRandomElement([
     "A stranger leaves a box on their table",
     "A traveler",
     "About to host negotiations",
@@ -544,7 +520,11 @@ function setUrban()
     "Weapons are not allowed",
     "Workers are under control",
   ]);
-  document.getElementById("urban_location").innerHTML = getRandomElement([
+}
+
+function getRandomUrbanLocation()
+{
+  return getRandomElement([
     "Abandoned building",
     "Alchemist",
     "Apothecary",
@@ -608,894 +588,226 @@ function setUrban()
   ]);
 }
 
-function setNpc()
-{
-  document.getElementById("npc_race").innerHTML = getRandomElement([
-    "Dragonborn",
-    "Dwarf",
-    "Elf",
-    "Gnome",
-    "Half-elf",
-    "Halfling",
-    "Half-orc",
-    "Human",
-    "Tiefling",
-    "Tabaxi / Cat-folk",
-    "Harengon / Rabbit-folk",
-    "Centaur",
-  ]);
-  document.getElementById("npc_gender").innerHTML = getRandomElement([
-    "Male",
-    "Female",
-  ]);
-  document.getElementById("npc_age").innerHTML = getRandomElement([
-    "Child",
-    "Young Adult",
-    "Adult",
-    "Mature Adult",
-    "Elder",
-  ]);
-  document.getElementById("npc_physique").innerHTML = getRandomElement([
-    "Athletic",
-    "Slender",
-    "Stocky",
-    "Obese",
-    "Muscular",
-    "Toned",
-    "Average",
-  ]);
-
-  document.getElementById("npc_skintone").innerHTML = getRandomGaussianElement([
-    "Ghostly",
-    "Light",
-    "Average",
-    "Tan",
-    "Darkest",
-  ]);
-  document.getElementById("npc_hair").innerHTML = getRandomElement([
-    "Black",
-    "Brown",
-    "Light Brown",
-    "Dark Brown",
-    "Blonde",
-    "Dirty Blonde",
-    "Auburn",
-    "Ginger",
-    "Red",
-    "Dark Red",
-    "White",
-    "Grey",
-  ]) + ", " + getRandomElement([
-    "Straight",
-    "Curly",
-    "Wavy",
-    "Frizzy",
-  ]) + ", " + getRandomElement([
-    "Shoulder length",
-    "Waist lenth",
-    "Knee lenth",
-    "Short shaved",
-    "Short",
-  ]) + ", " + getRandomElement([
-    "Down",
-    "In a high pony",
-    "In a low pony",
-    "In a braid",
-    "In a bun",
-    "In a side bun",
-  ]) + ", " + getRandomElement([
-    "Clean",
-    "Dirty",
-    "Graying",
-    "Streaks of color natural or dyed",
-    "Ornaments hairband clips etc",
-  ]);
-  document.getElementById("npc_eyes").innerHTML = getRandomElement([
-    "Amethyst",
-    "Emerald",
-    "Sapphire",
-    "Ruby",
-    "Topaz",
-    "Opal",
-    "Obsidian",
-    "Crystal",
-    "Jade",
-    "Garnet",
-    "Aquamarine",
-    "Amber",
-    "Silver",
-    "Gold",
-    "Brown",
-    "Blue",
-    "Green",
-    "Hazel",
-    "Amber",
-    "Gray",
-    "Black",
-    "Dark Brown",
-    "Light Brown",
-    "Dark Blue",
-    "Light Blue",
-    "Dark Green",
-    "Light Green",
-    "Dark Hazel",
-    "Light Hazel",
-  ]);
-  document.getElementById("npc_class").innerHTML = getRandomElement([
-    "Barbarian",
-    "Bard",
-    "Cleric",
-    "Druid",
-    "Fighter",
-    "Monk",
-    "Paladin",
-    "Ranger",
-    "Rogue",
-    "Sorcerer",
-    "Warlock",
-    "Wizard",
-  ]);
-  document.getElementById("npc_doing").innerHTML = getRandomElement([
-    "Building",
-    "Celebrating ",
-    "Chasing",
-    "Communicating",
-    "Creating",
-    "Dying / wounded ",
-    "Exploring",
-    "Fleeing",
-    "Gathering",
-    "Hallucinating / Altered State",
-    "Hunting / foraging",
-    "In combat",
-    "Journey / pilgrimage",
-    "Learning",
-    "Lost / exploring",
-    "Marking territory",
-    "Mating / courting",
-    "Negotiating",
-    "Patrolling / guarding",
-    "Protecting",
-    "Resting / camping",
-    "Ritual / magic",
-    "Sleeping",
-    "Socializing",
-    "Trapped / imprisoned",
-    "Washing",
-  ]);
-  document.getElementById("npc_feature").innerHTML = getRandomElement([
-    "Armor plating",
-    "Bald",
-    "Birthmark",
-    "Braided beard or hair",
-    "Cloaks or capes",
-    "Distinctive nose",
-    "Distinctive posutre",
-    "Elaborate embroidery intricate patterns",
-    "Exceptionally beautiful",
-    "Exceptionally ugly",
-    "Eye patch",
-    "Facial hair",
-    "Fancy hat",
-    "Flamboyant clothes",
-    "Formal clothes",
-    "Mask",
-    "Missing fingers",
-    "Missing limbs or digits",
-    "Missing teeth",
-    "Naked",
-    "Nervous twitch",
-    "Piercings",
-    "Pronounced scar",
-    "Ragged dirty clothes",
-    "Rich fabrics exotic accessories",
-    "Scars",
-    "Symbolic insignias or crests",
-    "Tattoos",
-    "Tunic robe ceremonial garments",
-    "Unusual body modifications",
-    "Unusual eye color",
-    "Unusual eye colors",
-    "Unusual hair color",
-    "Unusual hair colors",
-    "Unusual hair styles",
-    "Unusual skin color",
-    "Unusual skin textures",
-  ]);
-  document.getElementById("npc_name").innerHTML = getRandomName();
-  document.getElementById("npc_nickname").innerHTML = getRandomElement([
-    "Ace",
-    "Sparky",
-    "Blaze",
-    "Shadow",
-    "Luna",
-    "Maverick",
-    "Jazz",
-    "Echo",
-    "Cricket",
-    "Goose",
-    "Bubbles",
-    "Dizzy",
-    "Noodle",
-    "Puddles",
-    "Socks",
-    "Rascal",
-    "Whiskers",
-    "Jinx",
-    "Pipsqueak",
-    "Snickerdoodle",
-    "Twinkle",
-    "Sprout",
-    "Zigzag",
-    "Doodlebug",
-    "Wiggles",
-    "Biscuit",
-    "Giggles",
-    "Poptart",
-    "Cuddlebug",
-    "Munchkin",
-    "Squiggle",
-    "Nibbles",
-    "Jellybean",
-    "Bumblebee",
-    "Snickers",
-    "Fluffy",
-    "Pebbles",
-    "Breezy",
-    "Chipmunk",
-    "Snuggles",
-    "Bubblegum",
-    "Cheeky",
-    "Fuzzy",
-    "Peanut",
-    "Sprinkles",
-    "Gummybear",
-    "Button",
-    "Squeaky",
-    "Marshmallow",
-    "Cupcake",
-    "Sugarplum",
-    "Daffodil",
-    "Sunshine",
-    "Rainbow",
-    "Moonbeam",
-    "Starlight",
-    "Snowflake",
-    "Firefly",
-    "Butterfly",
-    "Dragonfly",
-    "Ladybug",
-    "Sparrow",
-    "Bluebell",
-    "Clover",
-    "Honeybee",
-    "Tulip",
-    "Pansy",
-    "Poppy",
-    "Petal",
-    "Daisy",
-    "Blossom",
-    "Breeze",
-    "Misty",
-    "River",
-    "Ocean",
-    "Willow",
-    "Cedar",
-    "Cypress",
-    "Maple",
-    "Aspen",
-    "Willow",
-    "Hazel",
-    "Ivy",
-    "Holly",
-    "Juniper",
-    "Birch",
-    "Acorn",
-    "Rowan",
-    "Thorn",
-    "Fern",
-    "Moss",
-    "Lark",
-    "Finch",
-    "Robin",
-    "Sparrow",
-    "Starling",
-    "Wren",
-    "Hawk",
-    "Falcon",
-    "Eagle",
-  ]);
-  document.getElementById("npc_mood").innerHTML = getRandomElement([
-    "Aggravated",
-    "Amused",
-    "Angry",
-    "Anxious",
-    "Apathetic",
-    "Bored",
-    "Calm",
-    "Cautious",
-    "Confused",
-    "Content",
-    "Determined",
-    "Disappointed",
-    "Enraged",
-    "Enthusiastic",
-    "Excited",
-    "Frustrated",
-    "Fulfilled",
-    "Giddy",
-    "Grateful",
-    "Guilty",
-    "Happy",
-    "Hesitant",
-    "Hopeful",
-    "Indifferent",
-    "Inspired",
-    "Irritated",
-    "Jovial",
-    "Joyful",
-    "Lethargic",
-    "Lonely",
-    "Loving",
-    "Melancholic",
-    "Mellow",
-    "Mournful",
-    "Nervous",
-    "Optimistic",
-    "Overwhelmed",
-    "Peaceful",
-    "Pensive",
-    "Playful",
-    "Reflective",
-    "Regretful",
-    "Rejuvenated",
-    "Relaxed",
-    "Resentful",
-    "Restless",
-    "Sad",
-    "Satisfied",
-    "Sentimental",
-    "Serene",
-    "Somber",
-    "Stressed",
-    "Surprised",
-    "Sympathetic",
-    "Tense",
-    "Thoughtful",
-    "Touched",
-    "Vexed",
-    "Worried",
-    "Zestful",
-  ]);
-  document.getElementById("npc_disposition").innerHTML = getRandomGaussianElement([
-    "Attacking",
-    "Hostile",
-    "Unfriendly",
-    "Neutral",
-    "Friendly",
-    "Curious",
-    "Cautious",
-    "Fearful",
-  ]);
-  document.getElementById("npc_trait").innerHTML = getRandomElement([
-    "Abrasive",
-    "Adventurous",
-    "Adventurous",
-    "Ambitious",
-    "Ambitious",
-    "Apathetic",
-    "Arrogant",
-    "Careful",
-    "Careless",
-    "Cautious",
-    "Cautious",
-    "Charismatic",
-    "Charming",
-    "Closed-minded",
-    "Compassionate",
-    "Confident",
-    "Considerate",
-    "Content",
-    "Conventional",
-    "Courageous",
-    "Courageous",
-    "Cowardly",
-    "Creative",
-    "Creative",
-    "Critical",
-    "Cruel",
-    "Curious",
-    "Cynical",
-    "Deceitful",
-    "Dependent",
-    "Dishonest",
-    "Disloyal",
-    "Dreamy",
-    "Dull",
-    "Efficient",
-    "Emotional",
-    "Energetic",
-    "Extravagant",
-    "Foolish",
-    "Forgiving",
-    "Friendly",
-    "Generous",
-    "Greedy",
-    "Gruff",
-    "Hardworking",
-    "Helpless",
-    "Honest",
-    "Honest",
-    "Hostile",
-    "Humble",
-    "Idealistic",
-    "Impatient",
-    "Inconsiderate",
-    "Independent",
-    "Inefficient",
-    "Insecure",
-    "Insightful",
-    "Insincere",
-    "Insincere",
-    "Intelligent",
-    "Kind-hearted",
-    "Lazy",
-    "Lazy",
-    "Lethargic",
-    "Loyal",
-    "Loyal",
-    "Mysterious",
-    "Oblivious",
-    "Open-minded",
-    "Optimistic",
-    "Optimistic",
-    "Outgoing",
-    "Patient",
-    "Pessimistic",
-    "Practical",
-    "Practical",
-    "Punctual",
-    "Reliable",
-    "Reliable",
-    "Reserved",
-    "Resourceful",
-    "Selfish",
-    "Sensitive",
-    "Simple-minded",
-    "Sincere",
-    "Sincere",
-    "Stoic",
-    "Supportive",
-    "Suspicious",
-    "Tardy",
-    "Thick-skinned",
-    "Thrifty",
-    "Timid",
-    "Treacherous",
-    "Trusting",
-    "Unpredictable",
-    "Unreliable",
-    "Vengeful",
-    "Wise",
-    "Wise",
-  ]);
-  document.getElementById("npc_alignment").innerHTML = getRandomElement([
-    "Lawful good",
-    "Neutral good",
-    "Chaotic good",
-    "Lawful neutral",
-    "True neutral",
-    "Chaotic neutral",
-    "Lawful evil",
-    "Neutral evil",
-    "Chaotic evil",
-  ]);
-
-  document.getElementById("npc_occupation").innerHTML = getRandomElement([
-    "Abbess",
-    "Abbot",
-    "Acrobat",
-    "Actor",
-    "Advocate",
-    "Alchemist",
-    "Anchorite",
-    "Animal handler",
-    "Apothecary",
-    "Archer",
-    "Architect",
-    "Archivist",
-    "Aristocrat",
-    "Armorer",
-    "Artisan",
-    "Artist",
-    "Assassin",
-    "Astrologer",
-    "Baker",
-    "Banker",
-    "Barbarian",
-    "Barber",
-    "Bard",
-    "Bargeman",
-    "Barkeep",
-    "Barmaid",
-    "Beekeeper",
-    "Beggar",
-    "Bishop",
-    "Blacksmith",
-    "Boatman",
-    "Boatwright",
-    "Bodyguard",
-    "Bookbinder",
-    "Bookseller",
-    "Bowman",
-    "Bowyer",
-    "Brewer",
-    "Brick maker",
-    "Bricklayer",
-    "Brigand",
-    "Brothel owner",
-    "Buckle maker",
-    "Builder",
-    "Butcher",
-    "Cabinetmaker",
-    "Camp follower",
-    "Caravan leader",
-    "Carpenter",
-    "Cartographer",
-    "Chandler",
-    "Chaplain",
-    "Charioteer",
-    "Charlatan",
-    "Chatelaine",
-    "Chef",
-    "Chieftain",
-    "Clergyman",
-    "Cleric",
-    "Clerk",
-    "Clockmaker",
-    "Clothier",
-    "Cobbler",
-    "Commander",
-    "Concubine",
-    "Cook",
-    "Cooper",
-    "Copyist",
-    "Costermonger",
-    "Counselor",
-    "Courtesan",
-    "Courtier",
-    "Cowherd",
-    "Crofter",
-    "Crossbowman",
-    "Cutler",
-    "Dairymaid",
-    "Dancer",
-    "Diplomat",
-    "Distiller",
-    "Diver",
-    "Diviner",
-    "Doctor",
-    "Domestic servant",
-    "Druid",
-    "Duenna",
-    "Dyer",
-    "Emperor",
-    "Empress",
-    "Engraver",
-    "Explorer",
-    "Falconer",
-    "Farmer",
-    "Ferryman",
-    "Fighter",
-    "Fisherman",
-    "Fishmonger",
-    "Fletcher",
-    "Footman",
-    "Footpad",
-    "Forester",
-    "Fortune teller",
-    "Fowler",
-    "Fruiterer",
-    "Furrier",
-    "Galley slave",
-    "Gamekeeper",
-    "Gardener",
-    "General",
-    "Gladiator",
-    "Glassblower",
-    "Glazier",
-    "Glovemaker",
-    "Goatherd",
-    "Goldsmith",
-    "Grain merchant",
-    "Gravedigger",
-    "Grocer",
-    "Groom",
-    "Guardsman",
-    "Guildmaster",
-    "Harem guard",
-    "Harness maker",
-    "Hay merchant",
-    "Hayward",
-    "Healer",
-    "Hearthwitch",
-    "Herald",
-    "Herbalist",
-    "Herder",
-    "Hermit",
-    "Highwayman",
-    "Historian",
-    "Horse-leech",
-    "Housemaid",
-    "Hunter",
-    "Huntress",
-    "Illuminator",
-    "Infantryman",
-    "Innkeeper",
-    "Interpreter",
-    "Inventor",
-    "Jailer",
-    "Jester",
-    "Jeweler",
-    "Jongleur",
-    "Judge",
-    "Juggler",
-    "King",
-    "Kitchen drudge",
-    "Kitchen maid",
-    "Knight",
-    "Laborer",
-    "Lacemaker",
-    "Lady",
-    "Lady in waiting",
-    "Lady's maid",
-    "Laundress",
-    "Lawyer",
-    "Librarian",
-    "Limner",
-    "Linguist",
-    "Locksmith",
-    "Longbowman",
-    "Longshoreman",
-    "Lord",
-    "Luthier",
-    "Maidservant",
-    "Majordomo",
-    "Man at arms",
-    "Mason",
-    "Masseur",
-    "Mayor",
-    "Mercer",
-    "Merchant",
-    "Messenger",
-    "Midwife",
-    "Miller",
-    "Milliner",
-    "Miner",
-    "Minister",
-    "Minstrel",
-    "Moneylender",
-    "Monk",
-    "Mortician",
-    "Mourner",
-    "Musician",
-    "Navigator",
-    "Necromancer",
-    "Noble",
-    "Nun",
-    "Nurse",
-    "Old-clothes seller",
-    "Ostler",
-    "Page",
-    "Painter",
-    "Paladin",
-    "Pariah",
-    "Pastry cook",
-    "Peasant",
-    "Peddler",
-    "Perfumer",
-    "Philosopher",
-    "Physician",
-    "Pickpocket",
-    "Pigkeeper",
-    "Pikeman",
-    "Pilgrim",
-    "Pirate",
-    "Plasterer",
-    "Playwright",
-    "Poet",
-    "Potboy",
-    "Potter",
-    "Poulterer",
-    "Priest",
-    "Priestess",
-    "Prince",
-    "Princess",
-    "Prior",
-    "Prioress",
-    "Privateer",
-    "Professor",
-    "Prostitute",
-    "Pursemaker",
-    "Queen",
-    "Rag-picker",
-    "Ranger",
-    "Ratcatcher",
-    "Reeve",
-    "Roofer",
-    "Ropemaker",
-    "Royal advisor",
-    "Rugmaker",
-    "Ruler",
-    "Saddler",
-    "Sailor",
-    "Scabbard maker",
-    "Scavenger",
-    "Scholar",
-    "Scout",
-    "Scrivener",
-    "Scullery maid",
-    "Sculptor",
-    "Seamstress",
-    "Seneschal",
-    "Serf",
-    "Servant",
-    "Shaman",
-    "Shearer",
-    "Shepherd",
-    "Ship's captain",
-    "Shipwright",
-    "Shoemaker",
-    "Silversmith",
-    "Singer",
-    "Slave",
-    "Slaver",
-    "Smith",
-    "Soldier",
-    "Sorcerer",
-    "Sorceress",
-    "Spice merchant",
-    "Spinner",
-    "Spinster",
-    "Sponge diver",
-    "Spy",
-    "Squire",
-    "Stablehand",
-    "Stevedore",
-    "Steward",
-    "Stonemason",
-    "Storyteller",
-    "Street kid",
-    "Street seller",
-    "Street sweeper",
-    "Student",
-    "Surgeon",
-    "Surveyor",
-    "Swineherd",
-    "Swordsman",
-    "Sycophant",
-    "Tailor",
-    "Tanner",
-    "Tavernkeeper",
-    "Tax collector",
-    "Teacher",
-    "Teamster",
-    "Thatcher",
-    "Thief",
-    "Tinker",
-    "Tollkeeper",
-    "Torturer",
-    "Town crier",
-    "Toymaker",
-    "Trapper",
-    "Troubadour",
-    "Tutor",
-    "Vendor",
-    "Vermin catcher",
-    "Veterinarian",
-    "Viking",
-    "Village chief",
-    "Vintner",
-    "Warlock",
-    "Warrior",
-    "Water carrier",
-    "Weaver",
-    "Wetnurse",
-    "Wheelwright",
-    "Wine seller",
-    "Witch",
-    "Wizard",
-    "Woodcarver",
-    "Woodcutter",
-    "Wool merchant",
-    "Wrestler",
-    "Writer",
-  ]);
-  document.getElementById("npc_quirk").innerHTML = getRandomElement([
-    "Biting into onions like an apple",
-    "Eating loose tea leaves",
-    "That they can fall asleep anywhere",
-    "Eating ice",
-    "Being able to play guitar behind their back",
-    "Standing on chairs",
-    "Sitting on chairs backwards",
-    "Walking tiptoe",
-    "Saying onomatopoeia out loud",
-    "Commiting petty crime",
-    "Tripping over their own feet when they run",
-    "Moving their hands a lot while talking",
-    "Thinking that they have god like abilities",
-    "Leaning on things",
-    "Reciting strange facts",
-    "Trying to see if they can read upside down",
-    "Knowing how to read upside down",
-    "Trying to speak in reverse",
-    "Not shutting up",
-    "Using outdated slang terms yo",
-    "Always wearing a hat no matter what",
-    "Laughing for no reason",
-    "That they constantly cry",
-    "Not knowing how to read",
-    "Having an obsession with the color red",
-    "Smelling like low tide",
-    "Constantly taking pictures of things",
-    "Constantly writing various observations and events in a notebook",
-    "Not having an indoor voice",
-    "Being completely mediocre at everything they do",
-    "Being overly competitive",
-    "That they claim to be clairvoyant they aren t clairvoyant",
-    "Hating the feeling of nail files",
-    "Has a slight lisp",
-    "Carries a lucky coin",
-    "Snorts when laughing",
-    "Always carries a book journal",
-    "Is a night morning person",
-    "Is constantly losing things",
-    "Tends to use large and sometimes esoteric words",
-    "Has a photographic memory",
-    "Often tells white lies",
-    "Dresses too formally for most occasions",
-    "Apologizes for bumping into inanimate objects",
-    "Hums or whistles anytime the conversation dies down",
-    "Always wears a particular religious or magical symbol",
-    "Corrects others habitually",
-    "Always wears a hat or other head covering",
-    "Addicted to something harmless",
-    "Is an obsessive fan or follower",
-    "Always carries a childhood trinket",
-    "Often misspeaks common phrases",
-    "Allergic asthmatic chronically ill",
-    "Artistic dreamer delusional",
-  ]);
-  document.getElementById("npc_virtue").innerHTML = getRandomVirtue();
-  document.getElementById("npc_vice").innerHTML = getRandomVice();
-
-}
-
 function randomize()
 {
-  setMeta();
-  setSymbols();
-  setDifficulty();
-  setElement();
+  for (const r of gRandomizers)
+  {
+    r();
+  }
+}
 
-  setLikelyOdds();
+function addTable(name, data)
+{
+  const table = document.createElement("table");
+  table.classList.add("RowTable")
+  let num_cols = 0;
+  for (const row of data)
+  {
+    num_cols = Math.max(num_cols, row.length);
+  }
 
-  setPrompt();
-  setEvent();
+  // Set col sizings
+  const col_group = document.createElement("colgroup");
+  for (let i = 0; i < num_cols; ++i)
+  {
+    const col = document.createElement("col");
+    col.style.width = String(1 / num_cols * 100) + "%";
+    col_group.appendChild(col);
+  }
+  table.appendChild(col_group);
 
-  setDice();
+  // Add header
+  const tr = document.createElement("tr");
+  const th = document.createElement("th");
+  th.colSpan = num_cols;
+  th.classList.add("TableHeader");
+  th.innerHTML = name;
+  tr.appendChild(th);
+  table.appendChild(tr);
 
-  setSenses();
-  setQuest();
+  // Add data
+  const set_row_data_funcs = [];
+  const headers = [];
+  for (const row_i in data)
+  {
+    const row = data[row_i];
+    const t_row = document.createElement("tr");
+    for (const col_i in row)
+    {
+      const col = row[col_i];
+      if (typeof col == "string")
+      {
+        if (col_i < headers.length)
+        {
+          headers.length = 0;
+        }
+        const row_header = document.createElement("th");
+        row_header.classList.add("TableSubHeader");
+        row_header.textContent = col;
+        t_row.appendChild(row_header);
+        headers.push(row_header);
+      }
+      else if (typeof col == "function")
+      {
+        const td = document.createElement("td");
+        td.classList.add("TableData");
+        td.classList.add("Flash");
+        const set_data = function ()
+        {
+          if (td.classList.contains("Flash"))
+          {
+            td.classList.remove("Flash");
+            td.classList.add("Flash2");
+          }
+          else
+          {
+            td.classList.remove("Flash2");
+            td.classList.add("Flash");
+          }
+          td.textContent = col();
+        };
+        td.addEventListener("click", set_data)
+        if (headers.length > 0)
+        {
+          headers[col_i].addEventListener("click", set_data);
+        }
+        set_row_data_funcs.push(set_data);
+        gRandomizers.push(set_data);
+        t_row.appendChild(td);
+      }
+    }
+    table.appendChild(t_row);
+  }
+  const set_table_data = function ()
+  {
+    for (const i of set_row_data_funcs)
+    {
+      i();
+    }
+  };
+  th.addEventListener("click", set_table_data)
+  set_table_data();
 
-  setBelongings();
-  setNames();
-  setTrap();
-  setDungeon();
-  setWilderness();
-  setUrban();
-  setNpc();
+  const div = document.createElement("div");
+  div.classList.add("Row");
+  div.appendChild(table);
+  document.getElementById("main").appendChild(div)
+}
 
+function init()
+{
+  addTable("Meta",
+    [
+      ["Difficulty", "Element", "Tarot", "Direction"],
+      [getRandomDifficulty, getRandomMagicElement, getRandomTarot, getRandomDirection],
+    ]
+  );
+
+  addTable("Symbols",
+    [
+      [getRandomSymbol, getRandomSymbol, getRandomSymbol],
+    ]
+  );
+
+  addTable("Likely odds",
+    [
+      ["Low (25%)", "Even (50%)", "High (75%)"],
+      [getRandomLowLikelyOdd, getRandomEvenLikelyOdd, getRandomHighLikelyOdd],
+    ]
+  );
+
+  addTable("Prompt",
+    [
+      ["Verb", "Adjective", "Noun"],
+      [getRandomVerb, getRandomAdjective, getRandomNoun],
+    ]
+  );
+
+  addTable("Event",
+    [
+      ["Focus", "Action", "Subject"],
+      [getRandomFocus, getRandomVerb, getRandomNoun],
+    ]
+  );
+
+  addTable("Dice",
+    [
+      ["D4", "D6", "D8", "D10", "D12", "D20", "D100"],
+      [getRandomD4, getRandomD6, getRandomD8, getRandomD10, getRandomD12, getRandomD20, getRandomD100],
+    ]
+  );
+
+  addTable("Senses",
+    [
+      ["See", "Hear", "Smell", "Feel"],
+      [getRandomVisual, getRandomSound, getRandomSmell, getRandomFeeling],
+    ]
+  );
+
+  addTable("Quest",
+    [
+      ["Framing event", "Objective", "Location", "Complication"],
+      [getRandomFramingEvent, getRandomObjective, getRandomLocation, getRandomComplication],
+    ]
+  );
+
+  addTable("Belongings",
+    [
+      [getRandomBelonging, getRandomBelonging, getRandomBelonging, getRandomBelonging],
+    ]
+  );
+
+  addTable("Names",
+    [
+      [getRandomName, getRandomName, getRandomName, getRandomName],
+    ]
+  );
+
+  addTable("Trap",
+    [
+      ["Object", "Trigger", "Effect", "Severity"],
+      [getRandomTrapObject, getRandomTrapTrigger, getRandomTrapEffect, getRandomTrapSeverity],
+    ]
+  );
+
+  addTable("Wilderness",
+    [
+      ["Location", "Time", "Temperature", "Wind", "Weather"],
+      [getRandomWildernessLocation, getRandomWildernessTime, getRandomWildernessTemperature, getRandomWildernessWind, getRandomWildernessWeather],
+    ]
+  );
+
+  addTable("Dungeon",
+    [
+      ["Theme", "Feature", "Contents", "Characteristic"],
+      [getRandomDungeonTheme, getRandomDungeonFeature, getRandomDungeonContents, getRandomDungeonCharacteristic],
+    ]
+  );
+
+  addTable("Urban",
+    [
+      ["Name", "Feature", "Location"],
+      [getRandomUrbanName, getRandomUrbanFeature, getRandomUrbanLocation],
+    ]
+  );
+
+  addTable("NPC",
+    [
+      ["Race", "Gender", "Age", "Physique"],
+      [getRandomRace, getRandomGender, getRandomAge, getRandomPhysique],
+      ["Skintone", "Hair", "Eyes", "Class"],
+      [getRandomSkintone, getRandomHair, getRandomEyes, getRandomClass],
+      ["Doing", "Feature", "Name", "Nickname"],
+      [getRandomNpcDoing, getRandomNpcFeature, getRandomName, getRandomNickname],
+      ["Mood", "Disposition", "Trait", "Alignment"],
+      [getRandomMood, getRandomDisposition, getRandomNpcTrait, getRandomAlignment],
+      ["Occupation", "Quirk", "Virtue", "Vice"],
+      [getRandomOccupation, getRandomNpcQuirk, getRandomVirtue, getRandomVice],
+    ]
+  );
+
+  randomize();
+
+  document.getElementById("main").on
   document.getElementById("main").style.visibility = "visible";
 }

@@ -2582,7 +2582,7 @@ const kFirstNames = [
   "Lloyd",
   "Lo",
   "Lo'del",
-  "Lo'var",
+  "Lo'let",
   "Lo'vis",
   "Loashec",
   "Lobelia",
