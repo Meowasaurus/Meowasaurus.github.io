@@ -68,6 +68,7 @@ table th:first-child {
   font-size: 1.25em;
   background-color: var(--sub-feature-background-color);
   color: var(--sub-feature-color);
+  color: #696;
 }
 
 .TableSubHeader:hover {
