@@ -51,8 +51,8 @@ table th:first-child {
 }
 
 .TableHeader {
-  height: 2.3em;
-  font-size: 1.8em;
+  height: 2.0em;
+  font-size: 1.5em;
   font-variant: small-caps;
   font-style: italic;
   color: var(--feature-color);
@@ -64,8 +64,8 @@ table th:first-child {
 }
 
 .TableSubHeader {
-  height: 2.0em;
-  font-size: 1.5em;
+  height: 1.75em;
+  font-size: 1.25em;
   background-color: var(--sub-feature-background-color);
   color: var(--sub-feature-color);
 }
@@ -75,8 +75,8 @@ table th:first-child {
 }
 
 .TableData {
-  height: 1.75em;
-  font-size: 1.25em;
+  height: 1.5em;
+  font-size: 1.0em;
   background-color: var(--data-background-color);
   color: var(--data-color);
   text-align: center;
@@ -180,7 +180,7 @@ table th:first-child {
 #main {
   position: fixed;
   width: 100%;
-  height: 95%;
+  height: calc(100% - 1.5em - 12px);
   overflow-y: scroll;
 }
 
@@ -189,8 +189,8 @@ table th:first-child {
   position: fixed;
   width: 100%;
   bottom: 0px;
-  height: 5%;
-  background-color: var(--feature-background-color);
+  height: 1.5em;
+  background-color: #081808;
   color: var(--feature-color);
 
   display: flex;
