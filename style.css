@@ -1,19 +1,86 @@
 :root {
   --feature-background-color: #111;
-  --feature-color: #fff;
+  --feature-color: #CFC;
   --sub-feature-background-color: #222;
   --sub-feature-color: #ddd;
   --data-background-color: #333;
   --data-color: #aaa;
 }
 
+* {
+  padding: 0px;
+  margin: 0px;
+  font-weight: bold;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  /* No text selection */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 body {
-  background: rgb(19, 32, 25);
+  background: #010;
   padding: 0px;
   margin: 0px;
 }
 
+#main {
+  position: fixed;
+  width: 100%;
+  height: calc(100% - 1.5em - 12px);
+  overflow-y: scroll;
+}
+
+.Row {
+  overflow: hidden;
+
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-bottom: solid #020 0.5em;
+}
+
+.RowContentExpander {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.5s;
+}
+
+.RowContentExpanderExpanded {
+  grid-template-rows: 1fr;
+}
+
+.RowContent {
+  min-height: 0px;
+  transition: visibility 0.5s;
+  visibility: hidden;
+}
+
+.RowContentExpanded {
+  visibility: visible;
+}
+
+.RowHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 2.0em;
+  font-size: 1.5em;
+  font-variant: small-caps;
+  font-style: italic;
+  color: var(--feature-color);
+  background-color: var(--feature-background-color);
+}
+
+.RowHeader:hover {
+  background-color: #181818;
+}
+
 table {
+  width: 100%;
   border: none;
   border-collapse: collapse;
 }
@@ -34,36 +101,7 @@ table th:first-child {
   border-left: none;
 }
 
-* {
-  padding: 0px;
-  margin: 0px;
-  color: white;
-  font-weight: bold;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  font-weight: bold;
-  /*Don't let select text*/
-  -webkit-user-select: none;
-  /* Safari */
-  -ms-user-select: none;
-  /* IE 10 and IE 11 */
-  user-select: none;
-  /* Standard syntax */
-}
-
 .TableHeader {
-  height: 2.0em;
-  font-size: 1.5em;
-  font-variant: small-caps;
-  font-style: italic;
-  color: var(--feature-color);
-  color: #CFC;
-}
-
-.TableHeader:hover {
-  background-color: #181818;
-}
-
-.TableSubHeader {
   height: 1.75em;
   font-size: 1.25em;
   background-color: var(--sub-feature-background-color);
@@ -71,7 +109,7 @@ table th:first-child {
   color: #696;
 }
 
-.TableSubHeader:hover {
+.TableHeader:hover {
   background-color: #282828;
 }
 
@@ -85,104 +123,6 @@ table th:first-child {
 
 .TableData:hover {
   background-color: #383838;
-}
-
-
-
-@keyframes flash {
-  0% {
-    filter: brightness(100%);
-  }
-
-  10% {
-    filter: brightness(200%);
-  }
-
-  100% {
-    filter: brightness(100%);
-  }
-}
-
-@keyframes flash2 {
-  0% {
-    filter: brightness(100%);
-  }
-
-  10% {
-    filter: brightness(200%);
-  }
-
-  100% {
-    filter: brightness(100%);
-  }
-}
-
-.Flash {
-  animation-name: flash;
-  animation-duration: 1s;
-}
-
-.Flash2 {
-  animation-name: flash2;
-  animation-duration: 1s;
-}
-
-.RowTable {
-  margin: 0 auto;
-  width: 100%;
-}
-
-.Row {
-  display: flex;
-  overflow-x: hidden;
-
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 0;
-  padding-bottom: 0;
-  border-bottom: solid #020 0.5em;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.Row:nth-child(even) {
-  background-color: #111;
-}
-
-.Row:nth-child(odd) {
-  background-color: #111;
-}
-
-.LeftToRight {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.TopToBottom {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.RowItem {
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-.ColumnItem {
-  padding-left: 0px;
-  padding-right: 0px;
-}
-
-#main {
-  position: fixed;
-  width: 100%;
-  height: calc(100% - 1.5em - 12px);
-  overflow-y: scroll;
 }
 
 #randomize {
@@ -209,4 +149,42 @@ table th:first-child {
 #randomize:active {
   cursor: pointer;
   filter: brightness(80%);
+}
+
+@keyframes flash {
+  0% {
+    filter: brightness(100%);
+  }
+
+  10% {
+    filter: brightness(200%);
+  }
+
+  100% {
+    filter: brightness(100%);
+  }
+}
+
+.Flash {
+  animation-name: flash;
+  animation-duration: 0.5s;
+}
+
+@keyframes flash2 {
+  0% {
+    filter: brightness(100%);
+  }
+
+  10% {
+    filter: brightness(200%);
+  }
+
+  100% {
+    filter: brightness(100%);
+  }
+}
+
+.Flash2 {
+  animation-name: flash2;
+  animation-duration: 0.5s;
 }
